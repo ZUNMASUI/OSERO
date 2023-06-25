@@ -1,18 +1,30 @@
 var canvas = document.getElementById("reversi")
 var ctx = canvas.getContext("2d")
 
+//初期配置
+var playBoard = [
+	[0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+]
+
 ctx.fillStyle = "black"
 
 for (let col = 0; col < 8; col++) {
-  ctx.beginPath(); // Start a new path
-  ctx.moveTo(40 * col, 0); // Move the pen to
-  ctx.lineTo(40 * col, 320); // Draw a line to
+  ctx.beginPath(); // スタートパス
+  ctx.moveTo(40 * col, 0); 
+  ctx.lineTo(40 * col, 320); // 線を描く
   ctx.stroke();
 }
 for (let row = 0; row < 8; row++) {
-  ctx.beginPath(); // Start a new path
-  ctx.moveTo(0, 40 * row); // Move the pen to
-  ctx.lineTo(320, 40 * row); // Draw a line to 
+  ctx.beginPath(); // スタートパス
+  ctx.moveTo(0, 40 * row); 
+  ctx.lineTo(320, 40 * row); // 線を描く 
   ctx.stroke();
 }
 
@@ -26,21 +38,20 @@ function putStone(x, y, color){
 // クリックした座標に石を置く
 function putStoneAt(event){
 	// HTMLの中にCANVASがあるので、CANVASのどの位置をクリックしたか
- 	// 調整するために、CANVASとHTMLの位置関係から補正しています
+ 	
   var rect = event.target.getBoundingClientRect();
   x = event.clientX - rect.left;
   y = event.clientY - rect.top;
-  console.log({x, y})
-  // 20 + 40n に配置されるようにすれば良い
-  // % は 余りを取得する演算子 
-  // fx1. 158なら38 (158-38+20=140) 
-  // fx2. 170なら１０ (170-10+20=180) 
   x = x - x % 40 + 20 // キリが良い箇所に配置されるようにx座標を補正
   y = y - y % 40 + 20 // キリが良い箇所に配置されるようにy座標を補正
-  putStone(x, y, "white")
-  // 参考：下記の実装だと、クリック位置とずれる
-  // console.log({event.clientX, event.clientY})
-  // putStone(event.clientX, event.clientY, "white")
+  putStone(x, y, "white");
+  
+  // どこに石を置いたか記憶する
+  var posX = (x-20) / 40
+  var posY = (y-20) / 40
+  playBoard[posY][posX] = 1 
+  // 1:white 2:black とする
+  console.log(playBoard)
 }
 
 // 初期配置を行う関数
