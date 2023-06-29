@@ -21,7 +21,7 @@ ctx.fillStyle = "black"
 // クリックした座標に石を置く
 function onClickPutStone(event){
   // HTMLの中にCANVASがあるので、CANVASのどの位置をクリックしたか
- 
+  // 調整するために、CANVASとHTMLの位置関係から補正しています
   var rect = event.target.getBoundingClientRect();
   x = event.clientX - rect.left;
   y = event.clientY - rect.top;
