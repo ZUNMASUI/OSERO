@@ -1,5 +1,11 @@
 <canvas id="reversi" 
 width="320" height="320" 
 style="background-color: green"
-onclick="putStoneAt(event)"
+onclick="onClickPutStone(event)"
 ></canvas>
+
+<div>
+<button onclick="changePlayer()">石を変更</button>
+<div id="player" style="color: white">white</div>
+<div id="log" style="color: white"></div>
+</div>
