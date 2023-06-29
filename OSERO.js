@@ -21,7 +21,6 @@ ctx.fillStyle = "black"
 // クリックした座標に石を置く
 function onClickPutStone(event){
   // HTMLの中にCANVASがあるので、CANVASのどの位置をクリックしたか
-  // 調整するために、CANVASとHTMLの位置関係から補正しています
   var rect = event.target.getBoundingClientRect();
   x = event.clientX - rect.left;
   y = event.clientY - rect.top;
@@ -71,21 +70,21 @@ function putStone(x, y, stone){
 function drawPlayBoard () {
   // 縦に線を引く
   for (let col = 0; col < 8; col++) {
-    ctx.beginPath(); // Start a new path
-    ctx.moveTo(40 * col, 0); // Move the pen to
-    ctx.lineTo(40 * col, 320); // Draw a line to
+    ctx.beginPath(); 
+    ctx.moveTo(40 * col, 0); 
+    ctx.lineTo(40 * col, 320); 
     ctx.stroke();
   }
   // 横に線を引く
   for (let row = 0; row < 8; row++) {
-    ctx.beginPath(); // Start a new path
-    ctx.moveTo(0, 40 * row); // Move the pen to
-    ctx.lineTo(320, 40 * row); // Draw a line to 
+    ctx.beginPath(); 
+    ctx.moveTo(0, 40 * row); 
+    ctx.lineTo(320, 40 * row); 
     ctx.stroke();
   }
 }
 
-// 盤面を描く
+// 盤面を描く関数の実行
 drawPlayBoard()
-// 初期配置
+// 初期配置の実行
 initialize()
