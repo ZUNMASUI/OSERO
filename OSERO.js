@@ -4,14 +4,14 @@ var log = document.getElementById("log");
 
 var ctx = canvas.getContext("2d");
 var playBoard = [
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0]
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]
 ];
 var player = 1;
 displayPlayer.innerText = "white";
@@ -37,39 +37,43 @@ function onClickPutStone(event) {
     flipStones(posX, posY, player);
     console.log(playBoard);
     changePlayer(); // プレイヤーを切り替える
+
+    if (isBoardFull()) {
+      var winner = getWinner();
+      showResult(winner);
+    }
   }
 }
 
-
-function changePlayer(){
-  if(player == 1){
+function changePlayer() {
+  if (player === 1) {
     player = 2;
     displayPlayer.innerText = "black";
-  }else{
+  } else {
     player = 1;
     displayPlayer.innerText = "white";
   }
 }
 
 // 初期配置を行う関数
-function initialize(){
+function initialize() {
   putStone(3, 4, 1);
   putStone(4, 4, 2);
   putStone(3, 3, 2);
   putStone(4, 3, 1);
 }
 
-// 座標を指定しして石を置く
-function putStone(x, y, stone){
-  if(stone == 1){
+// 座標を指定して石を置く
+function putStone(x, y, stone) {
+  if (stone === 1) {
     color = "white";
-  }else{
+  } else {
     color = "black";
   }
-  
+
   ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.arc(40*x + 20, 40*y + 20, 16, 0, 2 * Math.PI);
+  ctx.arc(40 * x + 20, 40 * y + 20, 16, 0, 2 * Math.PI);
   ctx.fill();
 
   playBoard[x][y] = stone; // stoneに変更
@@ -127,6 +131,57 @@ function drawPlayBoard() {
     ctx.lineTo(320, 40 * row); // Draw a line to 
     ctx.stroke();
   }
+}
+
+// 盤面が埋まったかをチェックする
+function isBoardFull() {
+  for (var row = 0; row < 8; row++) {
+    for (var col = 0; col < 8; col++) {
+      if (playBoard[row][col] === 0) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+// 勝者を判定する
+function getWinner() {
+  var whiteCount = 0;
+  var blackCount = 0;
+
+  for (var row = 0; row < 8; row++) {
+    for (var col = 0; col < 8; col++) {
+      if (playBoard[row][col] === 1) {
+        whiteCount++;
+      } else if (playBoard[row][col] === 2) {
+        blackCount++;
+      }
+    }
+  }
+
+  if (whiteCount > blackCount) {
+    return "white";
+  } else if (blackCount > whiteCount) {
+    return "black";
+  } else {
+    return "draw";
+  }
+}
+
+// 結果を表示するポップアップ
+function showResult(winner) {
+  var result;
+
+  if (winner === "white") {
+    result = "白の勝ちです！";
+  } else if (winner === "black") {
+    result = "黒の勝ちです！";
+  } else {
+    result = "引き分けです！";
+  }
+
+  alert(result);
 }
 
 // 盤面を描く
